@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
+from interfaces.models import Interface
 from projects.models import Projects
 
 
@@ -57,8 +58,22 @@ class ProjectModelSerializer(serializers.ModelSerializer):
         #     'leader': {'write_only': True}
         # }
 
-    def create(self, validated_data):
-        return Projects.objects.create(**validated_data)
 
-    def update(self, instance, validated_data):
-        return instance
+class ProjectNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Projects
+        fields = ('id', 'name')
+
+
+class InterfacesNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Interface
+        fields = ('id', 'name', 'tester')
+
+
+class InterfaceByProjectIdSerializer(serializers.ModelSerializer):
+    interfaces_set = InterfacesNameSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Projects
+        fields = ('id', 'interfaces_set')
