@@ -10,12 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
+import sys
 import datetime
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -36,14 +37,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'projects.apps.ProjectsConfig',
-    'interfaces.apps.InterfacesConfig',
-    'user.apps.UserConfig',
+    # 'apps.projects.apps.ProjectsConfig',
     'rest_framework',
     'django_filters',
     'drf_yasg',
-]
+    'interfaces.apps.InterfacesConfig',
+    'projects.apps.ProjectsConfig',
+    'user.apps.UserConfig',
+    'configures.apps.ConfiguresConfig',
+    'debugtalks.apps.DebugtalksConfig',
+    'envs.apps.EnvsConfig',
+    'reports.apps.ReportsConfig',
+    'testcases.apps.TestcasesConfig',
+    'testsuits.apps.TestsuitsConfig',
 
+]
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=600),  # 修改token认证时间
     'JWT_AUTH_HEADER_PREFIX': 'BF',
@@ -93,7 +101,7 @@ DATABASES = {
         # 指定引擎
         'ENGINE': 'django.db.backends.mysql',
         # 指定数据库名称
-        'NAME': 'study_happy2',
+        'NAME': 'study_happy',
         # 数据库用户
         'USER': 'root',
         # 数据库密码
