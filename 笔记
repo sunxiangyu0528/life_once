@@ -1,0 +1,71 @@
+创建Django项目
+file-new-project-django
+python manage.py runserver 用命令行启动django
+用启动器启动
+django-server
+
+settings.py 项目全局配置文件
+urls.py  什么全局url路由表
+wsgi.py  兼容wsgi协议的web服务器入口文件
+
+修改默认时区
+settings.py 里面修改
+LANGUAGE_CODE = 'zh-hans'
+TIME_ZONE = 'Asia/Shanghai'
+
+1.创建子应用
+1.python manage.py startapp projects  用命令行创建
+2.tools-run manage.py Task  ==》startapp projects
+
+
+2.配置settings,子应用，名。apps。子应用名config
+projects.apps.projectsconfig
+
+3.在views.py里面创建视图
+4.主应用里urls.py配置url
+
+request.POST.getlist
+
+###创建路由###
+path('index/', views.IndexView().as_view),
+path('<int:pk>/',views.IndexView.as_view())
+
+
+使用post请求默认要把MIDDLEWARE中'django.middleware.csrf.CsrfViewMiddleware'注释
+
+###获取get请求的参数###
+request.GET['name']
+###获取post请求的json格式参数###
+one_str = request.body.decode('utf-8')
+one_dict = json.loads(one_str)
+print(one_dict['name'])
+先进行编码，然后把json格式数据转化为python可以识别的字典，通过键值对获取
+
+数据库迁移
+makemigrations + 应用名，指定应用做迁移，不加的话，全部做迁移
+migrate projects
+
+class Projects(models.Model):
+    name = models.CharField(verbose_name="项目名称", max_length=200, help_text="项目名称", unique=True
+            blank=True，default='',null=True)
+
+    class Meta(object):
+        db_table = 'tb_projects'
+        # 在admin站点中，显示一个更人性化的表名
+        verbose_name = '项目'
+        verbose_name_plural = '项目'
+
+verbose_name：用于设置更人性化的字段名
+unique: 唯一键，重复会出错，默认为false
+help_text： 用于api文档的一个字段
+blank：设置前端可以不传递
+null:设置数据库此字段可以为空
+
+
+创建后台站点信息
+admin.register()
+
+
+创建超级管理员
+createsuperuser
+
