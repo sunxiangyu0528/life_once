@@ -62,8 +62,42 @@ blank：设置前端可以不传递
 null:设置数据库此字段可以为空
 
 
+单字段校验
+    def validate_name(self, value):
+多字段校验
+    def validate(self, attrs):
+
+
+###APIView与View的不同之处在于：
+apiview不仅可以传json格式的数据，也可以传form表单格式的，通过cintent-type解析
+传入到视图方法中的是REST framework的Request对象，而不是Django的HttpRequeset对象；
+视图方法可以返回REST framework的Response对象，视图会为响应数据设置（render）符合前端要求的格式；
+任何APIException异常都会被捕获到，并且处理成合适的响应信息；APIException异常捕获
+在进行dispatch()分发前，会对请求进行身份认证、权限检查、流量控制
+
+###分页###
+1。settings里设置
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 3,  # 每页数目
+
+django：
+view
+
+DRF:
+APIView
+GenericAPIView
+mixins拓展类
+CreateAPIView
+ViewSet视图集
+GenericViewSet
+CreateViewSet
+
+
+
+
+
 创建后台站点信息
-admin.register()
+admin.site.register(Projects)
 
 
 创建超级管理员

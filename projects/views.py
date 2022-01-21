@@ -12,6 +12,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework.viewsets import ModelViewSet
+from rest_framework import permissions
 
 from projects.models import Projects
 from projects.serializer import ProjectModelSerializer, \
@@ -27,13 +28,15 @@ class ProjectsViewSet(viewsets.ModelViewSet):
     """
     queryset = Projects.objects.all()
     serializer_class = ProjectModelSerializer
+    permission_classes = [permissions.AllowAny]
 
     # ordering_fields = ['name', 'leader']
     # filterset_fields = ['name', 'leader']
     # action装饰器来声明自定义的动作
     # methods参数用于指定该动作支持的请求方式，默认为get
+    # url_path后面跟url的路径拼接，路径为：projects/path
     # 默认实例方法名就是动作名
-    @action(methods=['GET'], detail=False, url_path='nm', url_name='url_names')
+    @action(methods=['GET'], detail=False, url_path='path', url_name='url_names')
     def names(self, request):
         project = self.get_queryset()
         serializer = ProjectNameSerializer(instance=project, many=True)

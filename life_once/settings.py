@@ -38,10 +38,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'projects.apps.ProjectsConfig',
     'interfaces.apps.InterfacesConfig',
+    'user.apps.UserConfig',
     'rest_framework',
     'django_filters',
     'drf_yasg',
 ]
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=600),  # 修改token认证时间
+    'JWT_AUTH_HEADER_PREFIX': 'BF',
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'utils.jwt_handle.jwt_response_payload_handler'
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -158,10 +165,19 @@ REST_FRAMEWORK = {
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'DEFAULT_PAGINATION_CLASS': 'utils.pagination.PageNumberPaginationManual',
 
-    'PAGE_SIZE': 3,  # 每页数目
-    "DEFAULT_SCHEMA_CLASS": 'rest_framework.schemas.coreapi.AutoSchema'
-
+    'PAGE_SIZE': 3,  # 每页数目,
+    "DEFAULT_SCHEMA_CLASS": 'rest_framework.schemas.coreapi.AutoSchema',
+    # "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated",],
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
+    # "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAdminUser",],
+    #
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework_jwt.authentication.JSONWebTokenAuthentication',  # 第一种jwt方式
+    #     'rest_framework.authentication.BasicAuthentication',  # 基本认证
+    #     'rest_framework.authentication.SessionAuthentication',  # session认证
+    # ),
 }
+
 BASE_LOG_DIR = os.path.join(BASE_DIR, "log")
 # LOGGING = {
 #     'version': 1,
@@ -239,3 +255,4 @@ BASE_LOG_DIR = os.path.join(BASE_DIR, "log")
 #         }
 #     },
 # }
+STATIC_ROOT = os.path.join(BASE_DIR, 'front_ends/static')
