@@ -5,7 +5,8 @@ from django.views import View
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework import mixins
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView
+from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -14,9 +15,7 @@ from projects.serializer import ProjectModelSerializer
 from utils.pagination import PageNumberPaginationManual
 
 
-class ProjectsList(GenericAPIView, mixins.ListModelMixin,
-                   mixins.CreateModelMixin,
-                   mixins.RetrieveModelMixin, ):
+class ProjectsList(generics.ListCreateAPIView):
     queryset = Projects.objects.all()
     serializer_class = ProjectModelSerializer
 
@@ -29,16 +28,11 @@ class ProjectsList(GenericAPIView, mixins.ListModelMixin,
         return self.create(request, *args, **kwargs)
 
 
-class ProjectsDetail(GenericAPIView,
-                     mixins.CreateModelMixin,
-                     mixins.RetrieveModelMixin,
-                     mixins.DestroyModelMixin,
-                     mixins.UpdateModelMixin):
+class ProjectsDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Projects.objects.all()
     serializer_class = ProjectModelSerializer
     filterset_fields = ['name', 'leader']
 
-    # lookup_field = 'id'
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
@@ -47,6 +41,6 @@ class ProjectsDetail(GenericAPIView,
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+    #
+    # def post(self, request, *args, **kwargs):
+    #     return self.create(request, *args, **kwargs)
