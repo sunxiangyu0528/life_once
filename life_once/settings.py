@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'projects.apps.ProjectsConfig',
     'interfaces.apps.InterfacesConfig',
     'rest_framework',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,31 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_RENDERER_CLASSES': (
+#         # JSON渲染器为第一优先级
+#         'rest_framework.renderers.JSONRenderer',
+#         # 可浏览的API渲染器为第二优先级
+#         'rest_framework.renderers.BrowsableAPIRenderer',
+#
+#     )
+# }
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_FILTER_BACKENDS': [
+        # 设置排序过滤引擎
+        'rest_framework.filters.OrderingFilter',
+        # 设置查询过滤引擎
+        'django_filters.rest_framework.backends.DjangoFilterBackend'
+    ],
+    # 在全局指定分页的引擎
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_PAGINATION_CLASS': 'utils.pagination.PageNumberPaginationManual',
+
+    'PAGE_SIZE': 3,  # 每页数目
+
+}
