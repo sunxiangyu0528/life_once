@@ -18,7 +18,7 @@ class Interface(models.Model):
     class Meta:
         db_table = 'tb_interfaces'
         verbose_name = "接口"
-        verbose_name_plural = '接口'
+        verbose_name_plural = '接口(admin站点描述)'
 
     def __str__(self):
         return self.name
