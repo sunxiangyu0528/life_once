@@ -31,7 +31,7 @@ class InterfaceViewSet(viewsets.ModelViewSet):
 
     @action(methods=['GET'], detail=False, url_path='id11', url_name='url_names')
     def id_1(self, request):
-        project = Interface.objects.filter(project_id=2)
-        serializer = InterfaceModelSerializer(instance=project,many=True)
+        interface = Interface.objects.all()
+        serializer = InterfaceModelSerializer(instance=interface, many=True)
         # return Response(serializer.data)
         return Response(serializer.data)

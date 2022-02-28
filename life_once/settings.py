@@ -54,10 +54,10 @@ INSTALLED_APPS = [
 ]
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=600),  # 修改token认证时间
-    'JWT_AUTH_HEADER_PREFIX': 'BF',
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'utils.jwt_handle.jwt_response_payload_handler'
 }
-
+LOGIN_REDIRECT_URL = '/index'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -149,41 +149,32 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_RENDERER_CLASSES': (
-#         # JSON渲染器为第一优先级
-#         'rest_framework.renderers.JSONRenderer',
-#         # 可浏览的API渲染器为第二优先级
-#         'rest_framework.renderers.BrowsableAPIRenderer',
-#
-#     )
-# }
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
-    'DEFAULT_FILTER_BACKENDS': [
-        # 设置排序过滤引擎
-        'rest_framework.filters.OrderingFilter',
-        # 设置查询过滤引擎
-        'django_filters.rest_framework.backends.DjangoFilterBackend'
-    ],
+    # 'DEFAULT_FILTER_BACKENDS': [
+    #     # 设置排序过滤引擎
+    #     'rest_framework.filters.OrderingFilter',
+    #     # 设置查询过滤引擎
+    #     'django_filters.rest_framework.backends.DjangoFilterBackend'
+    # ],
     # 在全局指定分页的引擎
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'DEFAULT_PAGINATION_CLASS': 'utils.pagination.PageNumberPaginationManual',
 
     'PAGE_SIZE': 3,  # 每页数目,
     "DEFAULT_SCHEMA_CLASS": 'rest_framework.schemas.coreapi.AutoSchema',
-    # "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated",],
-    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated", ],
+    # "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
     # "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAdminUser",],
-    #
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'rest_framework_jwt.authentication.JSONWebTokenAuthentication',  # 第一种jwt方式
-    #     'rest_framework.authentication.BasicAuthentication',  # 基本认证
-    #     'rest_framework.authentication.SessionAuthentication',  # session认证
-    # ),
+
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',  # 第一种jwt方式
+        'rest_framework.authentication.BasicAuthentication',  # 基本认证
+        'rest_framework.authentication.SessionAuthentication',  # session认证
+    ),
 }
 
 BASE_LOG_DIR = os.path.join(BASE_DIR, "log")

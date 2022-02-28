@@ -12,3 +12,9 @@ def get_count_by_project(datas):
             filter(project_id=project_id, is_delete=False)
         datas_list.append(get_biubiubiu)
         return datas_list
+
+
+def get_create_date(request):
+    data = request.data
+    data["name"] = "sunxy666"
+    return data

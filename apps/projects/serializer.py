@@ -78,7 +78,6 @@ class InterfacesNameSerializer(serializers.ModelSerializer):
 
 class InterfaceByProjectIdSerializer(serializers.ModelSerializer):
     interface_set = InterfacesNameSerializer(read_only=True, many=True)
-    # print("***********", interface_set, '**************')
 
     class Meta:
         model = Projects

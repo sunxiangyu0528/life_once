@@ -1,5 +1,8 @@
+from django.conf.urls import url
+from django.urls import path
 from apps.debugtalks import views
 from rest_framework import routers
+from rest_framework_jwt.views import obtain_jwt_token
 
 #  创建SimpleRouter路由对象
 router = routers.SimpleRouter()
@@ -8,21 +11,8 @@ router = routers.SimpleRouter()
 router.register(r'debug', views.DebugViewSet)
 
 urlpatterns = [
-    # path('project/', views.ProjectsViewSet.as_view({
-    #     'get': 'list',
-    #     'post': 'create'
-    # }), name='project_list'),
-    # path('project/<int:pk>/', views.ProjectsViewSet.as_view({
-    #     'get': 'retrieve',
-    #     'put': 'update',
-    #     'delete': 'destroy'
-    # }), name="project_detail"),
-    # path('project/names/', views.ProjectsViewSet.as_view({
-    #     'get': 'names'
-    # }), name='project_names'),
-    # path('project/<int:pk>/interfaces/', views.ProjectsViewSet.as_view({
-    #     'get': 'interfaces'
-    # }), name='project_names'),
+
+    path('debug_test', obtain_jwt_token),
 ]
 
 urlpatterns += router.urls

@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from rest_framework import viewsets
+from rest_framework.views import APIView
 
 from apps.reports.models import Reports
 from apps.reports.serializer import ReportSerializer
